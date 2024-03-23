@@ -41,18 +41,14 @@ class RatingSummary extends StatelessWidget {
     this.labelCounterThreeStars = '3',
     this.labelCounterTwoStars = '2',
     this.labelCounterOneStars = '1',
-    this.labelCounterFiveStarsStyle =
-        const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-    this.labelCounterFourStarsStyle =
-        const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-    this.labelCounterThreeStarsStyle =
-        const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-    this.labelCounterTwoStarsStyle =
-        const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-    this.labelCounterOneStarsStyle =
-        const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    this.labelCounterFiveStarsStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    this.labelCounterFourStarsStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    this.labelCounterThreeStarsStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    this.labelCounterTwoStarsStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    this.labelCounterOneStarsStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
     this.label = 'Ratings',
     this.labelStyle = const TextStyle(fontWeight: FontWeight.w600),
+    this.textDirection = TextDirection.ltr,
     this.color = Colors.amber,
     this.backgroundColor = const Color(0xFFEEEEEE),
   }) : super(key: key);
@@ -170,6 +166,11 @@ class RatingSummary extends StatelessWidget {
   /// You can use this to customize the look of it. The default value is a semi-bold font.
   final TextStyle labelStyle;
 
+  /// The textDirection of the [label] && [counter]
+  ///
+  /// You can use this to customize the text direction (ltr or rtl).
+  final TextDirection textDirection;
+
   /// The color of the stars and the horizontal bar [_ReviewBar].
   ///
   /// The default value is Colors.amber.
@@ -243,10 +244,13 @@ class RatingSummary extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  "$counter $label",
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                  overflow: TextOverflow.fade,
+                Directionality(
+                  textDirection: textDirection,
+                  child: Text(
+                    textDirection == TextDirection.ltr ? "$counter $label" : "$label $counter",
+                    style: labelStyle,
+                    overflow: TextOverflow.fade,
+                  ),
                 ),
               ],
             ),
@@ -275,8 +279,7 @@ class _ReviewBar extends StatelessWidget {
     required this.value,
     this.color = Colors.amber,
     this.backgroundColor = const Color(0xFFEEEEEE),
-    this.labelStyle =
-        const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+    this.labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
   }) : super(key: key);
 
   /// The label of the bar.
